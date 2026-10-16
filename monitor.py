@@ -5,7 +5,7 @@ from datetime import datetime
 
 # ============ 配置 ============
 PUSHPLUS_TOKEN = os.environ.get("PUSHPLUS_TOKEN", "")
-THRESHOLD = 1.0  # 溢价率低于此值触发提醒，单位：%
+THRESHOLD = 50.0  # 溢价率低于此值触发提醒，单位：%
 
 ETF_LIST = [
     {"code": "sh513100", "name": "纳指ETF国泰"},
