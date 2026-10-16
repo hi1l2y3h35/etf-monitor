@@ -1,0 +1,31 @@
+name: ETF Premium Monitor
+
+on:
+  schedule:
+    # 北京时间 9:30, 10:30, 11:30  → UTC 1:30, 2:30, 3:30
+    - cron: '30 1-3 * * 1-5'
+    # 北京时间 13:30, 14:30       → UTC 5:30, 6:30
+    - cron: '30 5-6 * * 1-5'
+    # 北京时间 15:00（收盘）       → UTC 7:00
+    - cron: '0 7 * * 1-5'
+  workflow_dispatch:  # 支持手动触发测试
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run ETF monitor
+        env:
+          PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
+        run: python monitor.py
